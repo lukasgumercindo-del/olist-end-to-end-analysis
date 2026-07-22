@@ -27,17 +27,6 @@ A proposta ia além de extrair métricas de vendas: o foco central foi investiga
 
 ---
 
-## 📊 Dashboard Executivo
-
-![Dashboard Olist](assets/dashboard_preview.png)
-
-O dashboard interativo permite filtrar por **Ano/Mês**, **Estado do Cliente** e **Status do Pedido**, trazendo em tempo real:
-
-- **Estados com Atrasos:** ranking de estados por volume absoluto de pedidos atrasados, com SP (1.820) e RJ (1.495) liderando — reforçando que, apesar de SP ter mais atrasos em número absoluto (efeito do volume de vendas), é o RJ que apresenta a pior *taxa* de atraso proporcional, como identificado no deep dive.
-- **Evolução do Faturamento Mensal:** a receita se manteve estável entre R$ 1,25 Mi e R$ 1,81 Mi ao longo do primeiro semestre, com pico em maio (R$ 1,76 Mi), mas sofreu uma queda acentuada a partir de setembro, chegando ao menor patamar do ano em dezembro (R$ 0,88 Mi).
-
----
-
 ## 🔎 Insights de Negócio
 
 ### 1. O Gargalo do Rio de Janeiro
@@ -80,10 +69,31 @@ A hipótese inicial era de que regiões mais distantes (Norte/Nordeste) explicar
 ---
 
 ## 📁 Estrutura do Repositório
-
 olist-data-analysis/
-├── 01_create_views.sql # Modelagem e criação da view analítica
-├── 02_business_queries.sql # Consultas de faturamento, atrasos e deep dive
-├── dashboard_analise_vendas_olist.pbix # Dashboard executivo (Power BI)
-├── assets/
-│ └── dashboard_preview.png # Print do dashboard
+├── 01_create_views.sql                  # Modelagem e criação da view analítica
+├── 02_business_queries.sql              # Consultas de faturamento, atrasos e deep dive
+├── dashboard_analise_vendas_olist.pbix   # Dashboard executivo (Power BI)
+└── README.md
+
+---
+
+## 🚀 Como Executar
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/lukasgumercindo-del/olist-data-analysis.git
+
+# 2. Carregue os dados brutos no PostgreSQL (via script Python ou import manual)
+
+# 3. Rode o script de modelagem
+psql -U seu_usuario -d seu_banco -f 01_create_views.sql
+
+# 4. Abra o dashboard_analise_vendas_olist.pbix no Power BI
+#    e atualize a fonte de dados apontando para o seu servidor local
+```
+
+> **Nota:** para rodar localmente, é necessário ter um servidor PostgreSQL configurado e substituir `seu_usuario` / `seu_banco` pelas suas credenciais.
+
+---
+
+<p align="center"><i>Desenvolvido para fins de portfólio em Data Analytics</i></p>

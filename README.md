@@ -1,52 +1,89 @@
-📦 Olist E-Commerce Analytics
+# 📦 Olist E-Commerce Analytics
 
-Análise de Dados End-to-End: Ingestão, Modelagem Relacional, Diagnóstico de Gargalos Logísticos e Visualização Executiva.
+> Análise de dados end-to-end sobre o ecossistema de e-commerce da Olist: ingestão, modelagem relacional, diagnóstico de gargalos logísticos e visualização executiva.
 
-Python PostgreSQL Power BI Data Analytics
+![Python](https://img.shields.io/badge/Python-3-blue) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791) ![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811) ![Status](https://img.shields.io/badge/Status-Concluído-brightgreen)
 
-📌 Visão Geral do Projeto
+---
 
-Este projeto realiza uma análise completa de inteligência de negócios (End-to-End) sobre o ecossistema de e-commerce da Olist no Brasil. O objetivo principal foi compreender a dinâmica de faturamento da empresa e investigar a fundo a causa raiz das taxas de atraso nas entregas, fornecendo diagnósticos orientados a dados para a tomada de decisão estratégica.
+## 📌 Sobre o Projeto
 
-💡 Destaque do Projeto: Mais do que extrair métricas de vendas, a análise identificou que o estado do Rio de Janeiro (RJ) apresentava uma taxa crítica de atrasos (12,17%) e realizou um Deep Dive que provou que o principal gargalo logístico está na rota de envios originados em São Paulo (SP) para o RJ, com impressionantes 15,50% de atraso.
+Este projeto foi desenvolvido para fins de portfólio em Data Analytics, com o objetivo de simular uma análise de negócio real sobre a base pública da **Olist**, maior marketplace do Brasil.
 
-🎯 Principais Métricas de Negócio (KPIs)
-Faturamento Total	Total de Pedidos	Ticket Médio	Pedidos Atrasados
-R$ 16,01 Mi	99.441	R$ 160,99	~7.000 (7%)
-📐 Arquitetura & Pipeline de Dados
+A proposta ia além de extrair métricas de vendas: o foco central foi investigar a **causa raiz das taxas de atraso nas entregas**, indo do dado bruto até um diagnóstico executivo acionável — o tipo de entrega que um analista de dados apresentaria à liderança de uma empresa.
 
-O fluxo de desenvolvimento foi dividido em 4 etapas estruturadas, garantindo governança, reprodutibilidade e alta performance no processamento dos dados:
+**Principal achado:** o estado do Rio de Janeiro apresentava uma taxa de atraso quase 2x acima da média nacional (12,17%). Ao investigar a fundo, identifiquei que o gargalo não estava nas regiões mais distantes do país, como seria intuitivo supor, mas sim na própria rota São Paulo → Rio de Janeiro, com 15,50% de atraso — revelando um problema operacional na malha logística mais movimentada do e-commerce brasileiro.
 
-Ingestão e Tratamento (Python): Carregamento das bases relacionais brutas (CSVs do Olist) para o banco de dados PostgreSQL utilizando Pandas e SQLAlchemy.
-Modelagem & Tratamento SQL (PostgreSQL): Criação da View analítica unificada vw_pedidos_analitico com consolidação de tabelas de pedidos, itens e clientes, tratamento de valores nulos e cálculos operacionais (diferença de dias úteis e flags de atraso).
-Análise Exploratória & Deep Dive (SQL): Execução de consultas analíticas avançadas (agrupamentos, subqueries, CTEs e filtros agregados com HAVING) para investigar gargalos por região.
-Visualização de Dados (Power BI): Construção de um Dashboard Executivo interativo conectado diretamente ao PostgreSQL para apresentação de métricas e filtros dinâmicos.
-🔎 Principais Insights & Storytelling de Negócio
-1. O Gargalo do Rio de Janeiro (RJ)
+---
 
-Ao analisar o desempenho logístico por estado (considerando apenas estados com volume estatisticamente relevante de pedidos, via HAVING COUNT > 100), o Rio de Janeiro destacou-se negativamente como o estado com a maior taxa de atrasos do país:
+## 🎯 KPIs Principais
 
-Total de Pedidos Atrasados para RJ: 1.503 pedidos
-Taxa de Atraso (%): 12,17% (quase o dobro da média nacional)
-2. Causa Raiz: A Rota Logística SP ➔ RJ
+| Métrica | Valor |
+|---|---|
+| Faturamento Total | R$ 16,01 Mi |
+| Total de Pedidos | 99.441 |
+| Ticket Médio | R$ 160,99 |
+| Pedidos Atrasados | ~7.000 (7%) |
 
-A suposição inicial era de que regiões mais distantes (como Norte e Nordeste) causariam a maior parte dos atrasos no RJ. Porém, a investigação profunda cruzando o Estado do Vendedor (Origem) com o Estado do Cliente (Destino = RJ) revelou um achado crítico:
+---
 
-Estado Vendedor (Origem)	Estado Cliente (Destino)	Total Pedidos	Pedidos Atrasados	Taxa de Atraso (%)
-São Paulo (SP)	Rio de Janeiro (RJ)	8.188	1.269	15,50%
+## 📊 Dashboard Executivo
 
-📌 Diagnóstico Executivo: Como São Paulo concentra a maior fatia de vendedores e volume de vendas do e-commerce, o gargalo na malha rodoviária e no processamento logístico da rota SP ➔ RJ impacta severamente a percepção de qualidade da Olist no estado do Rio de Janeiro.
+![Dashboard Olist](assets/dashboard_preview.png)
 
-📁 Estrutura do Repositório
+O dashboard interativo permite filtrar por **Ano/Mês**, **Estado do Cliente** e **Status do Pedido**, trazendo em tempo real:
+
+- **Estados com Atrasos:** ranking de estados por volume absoluto de pedidos atrasados, com SP (1.820) e RJ (1.495) liderando — reforçando que, apesar de SP ter mais atrasos em número absoluto (efeito do volume de vendas), é o RJ que apresenta a pior *taxa* de atraso proporcional, como identificado no deep dive.
+- **Evolução do Faturamento Mensal:** a receita se manteve estável entre R$ 1,25 Mi e R$ 1,81 Mi ao longo do primeiro semestre, com pico em maio (R$ 1,76 Mi), mas sofreu uma queda acentuada a partir de setembro, chegando ao menor patamar do ano em dezembro (R$ 0,88 Mi).
+
+---
+
+## 🔎 Insights de Negócio
+
+### 1. O Gargalo do Rio de Janeiro
+
+Analisando o desempenho logístico por estado (filtrando apenas estados com volume relevante, via `HAVING COUNT > 100`), o RJ se destacou como o estado com pior desempenho de entrega do país:
+
+- **1.503 pedidos atrasados**
+- **Taxa de atraso: 12,17%** — quase o dobro da média nacional
+
+### 2. Causa Raiz: a rota SP → RJ
+
+A hipótese inicial era de que regiões mais distantes (Norte/Nordeste) explicariam a maior parte dos atrasos. Cruzando o estado do vendedor (origem) com o estado do cliente (destino = RJ), o achado foi outro:
+
+| Origem (Vendedor) | Destino (Cliente) | Pedidos | Atrasados | Taxa de Atraso |
+|---|---|---|---|---|
+| São Paulo (SP) | Rio de Janeiro (RJ) | 8.188 | 1.269 | **15,50%** |
+
+**Diagnóstico:** como São Paulo concentra a maior parte dos vendedores e do volume de vendas do e-commerce nacional, gargalos na malha logística dessa rota específica impactam desproporcionalmente a percepção de qualidade da Olist no RJ.
+
+---
+
+## 🧱 Pipeline de Dados
+
+| Etapa | Ferramenta | Descrição |
+|---|---|---|
+| 1. Ingestão | Python (Pandas, SQLAlchemy, psycopg2) | Carga dos CSVs brutos da Olist para o PostgreSQL |
+| 2. Modelagem | PostgreSQL | Criação da view analítica `vw_pedidos_analitico`, unificando pedidos, itens e clientes, com tratamento de nulos e cálculo de flags de atraso |
+| 3. Análise Exploratória | SQL (CTEs, subqueries, `HAVING`) | Investigação de gargalos logísticos por região |
+| 4. Visualização | Power BI | Dashboard executivo interativo, conectado nativamente ao PostgreSQL |
+
+---
+
+## 🛠️ Tecnologias
+
+- **Python 3** — Pandas, SQLAlchemy, psycopg2
+- **PostgreSQL** / pgAdmin 4
+- **SQL** — DDL, DML, Window Functions, Aggregate Functions (`SUM`, `COUNT`, `ROUND`, `HAVING`)
+- **Power BI Desktop** — conexão nativa com PostgreSQL
+
+---
+
+## 📁 Estrutura do Repositório
+
 olist-data-analysis/
-├── 01_create_views.sql                 # Script SQL de modelagem e criação da View analítica
-├── 02_business_queries.sql             # Consultas SQL para análise de faturamento, atrasos e Deep Dive
-├── dashboard_analise_vendas_olist.pbix  # Dashboard executivo desenvolvido no Power BI
+├── 01_create_views.sql # Modelagem e criação da view analítica
+├── 02_business_queries.sql # Consultas de faturamento, atrasos e deep dive
+├── dashboard_analise_vendas_olist.pbix # Dashboard executivo (Power BI)
 ├── assets/
-│   └── dashboard_preview.png           # Imagem/Print do Dashboard para exibição no README
-└── README.md                           # Documentação completa do projeto
-🛠️ Tecnologias Utilizadas
-Python 3: Pandas, SQLAlchemy, psycopg2
-Banco de Dados: PostgreSQL / pgAdmin 4
-Linguagem SQL: DDL, DML, Window Functions, Aggregate Functions (SUM, COUNT, ROUND, HAVING)
-Business Intelligence: Power BI Desktop (Conexão nativa PostgreSQL)
+│ └── dashboard_preview.png # Print do dashboard
